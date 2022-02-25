@@ -10,8 +10,11 @@ export class UserRepositoryService {
   constructor() {}
 
   saveUser(user): Observable<any> {
-    user.classes = user.classes || [];
-    this.currentUser = user;
+    // user.classes = user.classes || [];
+    // this.currentUser = user;
+    const classes = user.classes || [];
+    //using immutability
+    this.currentUser = {...user, classes: [...classes]};
 
     return EMPTY.pipe(delay(1000));
   }
@@ -23,7 +26,11 @@ export class UserRepositoryService {
     if (this.currentUser.classes.includes(classId))
       return throwError(() => new Error('Already enrolled'));
 
-    this.currentUser.classes.push(classId);
+    //this.currentUser.classes.push(classId); - mutates 
+
+    //using immutability 
+    //classes property will be replaced with a new array
+    this.currentUser = {...this.currentUser, classes:this.currentUser.classes.conact(classId) };
 
     return EMPTY.pipe(delay(1000));
   }
@@ -35,7 +42,10 @@ export class UserRepositoryService {
     if (!this.currentUser.classes.includes(classId))
       return throwError(() => new Error('Not enrolled'));
 
-    this.currentUser.classes = this.currentUser.classes.filter(c => c !== classId);
+    //this.currentUser.classes = this.currentUser.classes.filter(c => c !== classId);
+
+    //use immutability
+    this.currentUser = {...this.currentUser, classes: this.currentUser.classes.filter(c => c !== classId)};
 
     return EMPTY.pipe(delay(3000));
   }
