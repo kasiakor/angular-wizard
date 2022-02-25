@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 
+import { IClass } from './class.model';
 import { CatalogRepositoryService } from "./catalog-repository.service";
 import { UserRepositoryService } from "../services/user-repository.service";
 
@@ -8,8 +9,8 @@ import { UserRepositoryService } from "../services/user-repository.service";
   templateUrl: './catalog.component.html'
 })
 export class CatalogComponent {
-  classes:any[];
-  visibleClasses:any[];
+  classes:IClass[] = [];
+  visibleClasses:IClass[] =[];
 
   constructor(
     public catalogRepository:CatalogRepositoryService, 
@@ -20,7 +21,7 @@ export class CatalogComponent {
       .subscribe(classes => { this.classes = classes; this.applyFilter('')});
   }
 
-  enroll(classToEnroll) {
+  enroll(classToEnroll: IClass) {
     classToEnroll.processing = true;
     this.userRepository.enroll(classToEnroll.classId)
       .subscribe(
@@ -30,7 +31,7 @@ export class CatalogComponent {
       );
   }
 
-  drop(classToDrop) {
+  drop(classToDrop:IClass) {
     classToDrop.processing = true;
     this.userRepository.drop(classToDrop.classId)
       .subscribe(
@@ -40,7 +41,7 @@ export class CatalogComponent {
       );
   }
 
-  applyFilter(filter) {
+  applyFilter(filter:string) {
     if (!filter)
       return this.visibleClasses = this.classes;
 

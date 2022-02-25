@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, EMPTY, throwError } from 'rxjs';
 import { delay } from 'rxjs/operators';
+import { IUser } from '../users/user.model';
 
 @Injectable()
 export class UserRepositoryService {
@@ -9,7 +10,7 @@ export class UserRepositoryService {
 
   constructor() {}
 
-  saveUser(user): Observable<any> {
+  saveUser(user: IUser): Observable<any> {
     // user.classes = user.classes || [];
     // this.currentUser = user;
     const classes = user.classes || [];
@@ -19,7 +20,7 @@ export class UserRepositoryService {
     return EMPTY.pipe(delay(1000));
   }
 
-  enroll(classId): Observable<any> {
+  enroll(classId: string): Observable<any> {
     if (!this.currentUser)
       return throwError(() => new Error('User not signed in'));
 
@@ -35,7 +36,7 @@ export class UserRepositoryService {
     return EMPTY.pipe(delay(1000));
   }
 
-  drop(classId): Observable<any> {
+  drop(classId: string): Observable<any> {
     if (!this.currentUser)
       return throwError(() => new Error('User not signed in'));
 
@@ -45,12 +46,12 @@ export class UserRepositoryService {
     //this.currentUser.classes = this.currentUser.classes.filter(c => c !== classId);
 
     //use immutability
-    this.currentUser = {...this.currentUser, classes: this.currentUser.classes.filter(c => c !== classId)};
+    this.currentUser = {...this.currentUser, classes: this.currentUser.classes.filter((c:string) => c !== classId)};
 
     return EMPTY.pipe(delay(3000));
   }
 
-  signIn(credentials): Observable<any> {
+  signIn(credentials:any): Observable<any> {
     //Never, ever check credentials in client-side code.
     //This code is only here to supply a fake endpoint for signing in.
     if (credentials.email !== 'me@whitebeards.edu' || credentials.password !== 'super-secret')
