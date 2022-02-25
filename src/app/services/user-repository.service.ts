@@ -30,7 +30,7 @@ export class UserRepositoryService {
 
     //using immutability 
     //classes property will be replaced with a new array
-    this.currentUser = {...this.currentUser, classes:this.currentUser.classes.conact(classId) };
+    this.currentUser = {...this.currentUser, classes:this.currentUser.classes.concat(classId) };
 
     return EMPTY.pipe(delay(1000));
   }
