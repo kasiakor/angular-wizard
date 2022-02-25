@@ -52,7 +52,7 @@ export class CatalogComponent {
   }
 
   showOnlyGeneralCourses() {
-    this.visibleClasses = this.classes.filter(c =>
+    return this.visibleClasses = this.classes.filter(c =>
       !c.course.courseNumber.startsWith('CH') &&
       !c.course.courseNumber.startsWith('PO') &&
       !c.course.courseNumber.startsWith('SP'));
