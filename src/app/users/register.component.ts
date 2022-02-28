@@ -35,15 +35,21 @@ import { IUser } from './user.model';
   
     registerUser(user:IUser) {
       this.saving=true;
-      this.userRepository.saveUser(user)
-        .subscribe(
-          null,
-          ()=>this.saving=false,
-          () => this.router.navigate(['/catalog']));
+      this.saveAndRedirect(user);
     }
-  
+
     cancel() {
       this.router.navigate(['/']);
+    }
+
+    //private members are listed after public
+    //method called by registerUser
+    private saveAndRedirect(user:IUser) {
+      this.userRepository.saveUser(user)
+      .subscribe(
+        null,
+        ()=>this.saving=false,
+        () => this.router.navigate(['/catalog']));
     }
   }
   
